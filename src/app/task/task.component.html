@@ -1,0 +1,21 @@
+@if (isAddingTask) {
+    <app-new-content (cancel)="dialogClosed()" (formData)="addedNewData($event)"/>
+}
+<section id="task">
+
+    <header>
+        <h2> {{ user.name }} </h2>
+        <menu>
+            <button (click)="addNewTask()">Add Task</button>
+        </menu>
+    </header>
+
+    <ul>
+        @for (task of selectedUserTask; track $index) {            
+            <li>
+                <app-content [task] = "task" (taskCompleted)="onCompletedTask($event)"/>
+            </li>
+        }
+    </ul>
+
+</section>
