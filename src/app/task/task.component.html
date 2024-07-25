@@ -1,5 +1,5 @@
 @if (isAddingTask) {
-    <app-new-content (cancel)="dialogClosed()" (formData)="addedNewData($event)"/>
+    <app-new-content [user]="user" (close)="onCloseTask()"/>
 }
 <section id="task">
 
@@ -13,7 +13,7 @@
     <ul>
         @for (task of selectedUserTask; track $index) {            
             <li>
-                <app-content [task] = "task" (taskCompleted)="onCompletedTask($event)"/>
+                <app-content [task] = "task" />
             </li>
         }
     </ul>

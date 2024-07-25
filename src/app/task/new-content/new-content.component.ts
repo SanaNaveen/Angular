@@ -1,6 +1,8 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NewTask } from '../../type/Task';
+import { TaskService } from '../../service/task.service';
+import { User } from '../../type/User';
 
 @Component({
   selector: 'app-new-content',
@@ -13,11 +15,12 @@ import { NewTask } from '../../type/Task';
 })
 export class NewContentComponent {
 
-  @Output() cancel = new EventEmitter<void>(); 
+  @Input({required: true}) user! : User;
 
-  // @Output() formData = new EventEmitter<{title:string, summary:string, dueDate:string}>();
+  @Output() close = new EventEmitter<void>(); 
 
-  @Output() formData = new EventEmitter<NewTask>();
+
+  private taskService = inject(TaskService);
 
   addTitle = "";
   addSummary = "";
@@ -26,15 +29,16 @@ export class NewContentComponent {
 
 
   submit() {
-    this.formData.emit({
+    this.taskService.addTask({
       title:this.addTitle,
       summary:this.addSummary,
       dueDate:this.addDueDate
-    });
+    }, this.user);
+    this.close.emit();
   }
 
   closeDialog() {
-    this.cancel.emit();
+    this.close.emit();
   }
 
 }

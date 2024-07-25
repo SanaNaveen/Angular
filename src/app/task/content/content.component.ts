@@ -1,6 +1,7 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { type Task } from '../../type/Task';
 import { DatePipe } from '@angular/common';
+import { TaskService } from '../../service/task.service';
 
 @Component({
   selector: 'app-content',
@@ -15,11 +16,12 @@ export class ContentComponent {
 
   @Input() task! : Task;
 
-  @Output() taskCompleted = new EventEmitter<string>();
+
+  private taskService = inject(TaskService);
 
 
   onCompletedTask() {
-    this.taskCompleted.emit(this.task.id);
+    this.taskService.removeTaks(this.task.id);
   }
 
 }
